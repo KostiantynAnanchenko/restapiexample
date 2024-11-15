@@ -11,13 +11,13 @@ public class CreateNoteResponse {
     private long createdNoteId;
 
     public enum Error {
-        ok,
-        invalidTitle,
+        OK,
+        INVALID_TITLE,
         invalidContent
     }
 
     public static CreateNoteResponse success(long createdNoteId) {
-        return builder().error(Error.ok).createdNoteId(createdNoteId).build();
+        return builder().error(Error.OK).createdNoteId(createdNoteId).build();
     }
 
     public static CreateNoteResponse failed(Error error) {

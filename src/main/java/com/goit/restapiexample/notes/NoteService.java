@@ -97,13 +97,13 @@ public class NoteService {
         return DeleteNoteResponse.success();
     }
 
-    private Optional<CreateNoteResponse.Error> validateCreateFields(CreateNoteRequest request) {
+    Optional<CreateNoteResponse.Error> validateCreateFields(CreateNoteRequest request) {
         if (Objects.isNull(request.getTitle()) || request.getTitle().length() > MAX_TITLE_LENGTH) {
-            return Optional.of(CreateNoteResponse.Error.invalidTitle);
+            return Optional.of(CreateNoteResponse.Error.INVALID_TITLE);
         }
 
         if (Objects.isNull(request.getContent()) || request.getContent().length() > MAX_CONTENT_LENGTH) {
-            return Optional.of(CreateNoteResponse.Error.invalidTitle);
+            return Optional.of(CreateNoteResponse.Error.INVALID_TITLE);
         }
 
         return Optional.empty();
