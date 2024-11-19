@@ -82,7 +82,6 @@ class NoteServiceTest {
     @Test
     void testGetUserNotes() {
         String username = "testUser";
-        User mockUser = new User();
 
         Note note1 = new Note();
         Note note2 = new Note();
@@ -92,7 +91,6 @@ class NoteServiceTest {
         when(noteRepository.getUserNotes(username)).thenReturn(mockUserNotes);
 
         GetUserNotesResponse response = noteService.getUserNotes(username);
-        ;
 
         assertEquals(GetUserNotesResponse.Error.ok, response.getError());
         assertEquals(List.of(note1, note2), response.getUserNotes());
@@ -104,7 +102,6 @@ class NoteServiceTest {
     void testUpdateNoteResponse() {
         //Arrange
         String username = "testUser";
-        User mockUser = new User();
         UpdateNoteRequest request = new UpdateNoteRequest(1L, "title", "content");
 
         Note mockNote = new Note();
@@ -120,6 +117,7 @@ class NoteServiceTest {
         //Act
         UpdateNoteResponse response = noteService.update(username, request);
         //Assert
+        assertEquals(UpdateNoteResponse.Error.ok, response.getError());
         assertEquals("title", mockNote.getTitle());
         assertEquals("content", mockNote.getContent());
         verify(noteRepository).save(mockNote);
