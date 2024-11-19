@@ -109,7 +109,7 @@ public class NoteService {
         return Optional.empty();
     }
 
-    private Optional<UpdateNoteResponse.Error> validateUpdateFields(UpdateNoteRequest request) {
+    Optional<UpdateNoteResponse.Error> validateUpdateFields(UpdateNoteRequest request) {
         if (Objects.nonNull(request.getTitle()) && request.getTitle().length() > MAX_TITLE_LENGTH) {
             return Optional.of(UpdateNoteResponse.Error.invalidTitleLength);
         }
@@ -121,7 +121,7 @@ public class NoteService {
         return Optional.empty();
     }
 
-    private boolean isNotUserNote(String username, Note note) {
+    boolean isNotUserNote(String username, Note note) {
         return !note.getUser().getUserId().equals(username);
     }
 }
