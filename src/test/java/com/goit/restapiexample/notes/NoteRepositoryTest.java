@@ -101,10 +101,11 @@ public class NoteRepositoryTest {
         User user = User.builder().userId("testUser").passwordHash("12345").name("title").age(33).build();
         userRepository.save(user);
 
-        Note note = new Note();
-        note.setUser(user);
-        note.setTitle("Title");
-        note.setContent("Content");
+        Note note = Note.builder()
+                .user(user)
+                .title("Title")
+                .content("Content")
+                .build();
         Note savedNote = noteRepository.save(note);
         long id = savedNote.getId();
 
