@@ -126,20 +126,21 @@ class NoteServiceTest {
 
     @Test
     void testDelete() {
-        //Arrange
+        // Arrange
         String username = "testUser";
-        long id = 1L;
-        Note mockNote = new Note();
-        mockNote.setId(1L);
+        User mockUser = User.builder().userId("testUser").passwordHash("12345").name("testUser").age(33).build();
+        long id=1L;
+
+        Note mockNote = Note.builder().id(1L).user(mockUser).title("Title").content("Content").build();
 
 
         when(noteRepository.findById(id)).thenReturn(Optional.of(mockNote));
         when(noteService.isNotUserNote(username, mockNote)).thenReturn(false);
 
-        //Act
+        // Act
         DeleteNoteResponse response = noteService.delete(username, id);
 
-        //Assert
+        // Assert
         assertEquals(DeleteNoteResponse.Error.ok, response.getError());
         verify(noteRepository).delete(mockNote);
     }
