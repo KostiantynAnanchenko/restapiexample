@@ -2,6 +2,7 @@ package com.goit.restapiexample.notes;
 
 import com.goit.restapiexample.notes.dto.create.CreateNoteRequest;
 import com.goit.restapiexample.notes.dto.create.CreateNoteResponse;
+import com.goit.restapiexample.notes.dto.delete.DeleteNoteResponse;
 import com.goit.restapiexample.notes.dto.get.GetUserNotesResponse;
 import com.goit.restapiexample.notes.dto.update.UpdateNoteRequest;
 import com.goit.restapiexample.notes.dto.update.UpdateNoteResponse;
@@ -48,7 +49,6 @@ class NoteServiceTest {
         String username = "testUser";
         CreateNoteRequest request = new CreateNoteRequest(null, "content");
 
-        // Мокаємо метод валідації, щоб він повертав помилку
         when(noteService.validateCreateFields(request)).thenReturn(Optional.of(CreateNoteResponse.Error.INVALID_TITLE));
 
         // Act
@@ -122,6 +122,26 @@ class NoteServiceTest {
         assertEquals("content", mockNote.getContent());
         verify(noteRepository).save(mockNote);
 
+    }
+
+    @Test
+    void testDelete() {
+        //Arrange
+        String username = "testUser";
+        long id = 1L;
+        Note mockNote = new Note();
+        mockNote.setId(1L);
+
+
+        when(noteRepository.findById(id)).thenReturn(Optional.of(mockNote));
+        when(noteService.isNotUserNote(username, mockNote)).thenReturn(false);
+
+        //Act
+        DeleteNoteResponse response = noteService.delete(username, id);
+
+        //Assert
+        assertEquals(DeleteNoteResponse.Error.ok, response.getError());
+        verify(noteRepository).delete(mockNote);
     }
 
 
