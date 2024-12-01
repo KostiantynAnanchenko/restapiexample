@@ -1,10 +1,12 @@
 package com.goit.restapiexample.notes.dto.create;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
+@AllArgsConstructor
 public class CreateNoteResponse {
     private Error error;
 

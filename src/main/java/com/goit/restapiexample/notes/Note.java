@@ -1,5 +1,6 @@
 package com.goit.restapiexample.notes;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.goit.restapiexample.users.User;
 import jakarta.persistence.*;
@@ -35,6 +36,9 @@ public class Note {
     private String content;
 
     @Column(name = "created_at", nullable = false)
+
     @Builder.Default
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime created_at = LocalDateTime.now();
+
 }
