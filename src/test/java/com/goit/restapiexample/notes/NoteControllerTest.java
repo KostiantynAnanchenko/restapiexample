@@ -1,10 +1,11 @@
 package com.goit.restapiexample.notes;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.goit.restapiexample.notes.dto.create.CreateNoteRequest;
 import com.goit.restapiexample.notes.dto.create.CreateNoteResponse;
+import com.goit.restapiexample.notes.dto.delete.DeleteNoteResponse;
 import com.goit.restapiexample.notes.dto.get.GetUserNotesResponse;
 import com.goit.restapiexample.notes.dto.update.UpdateNoteRequest;
 import com.goit.restapiexample.notes.dto.update.UpdateNoteResponse;
@@ -14,11 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import static org.mockito.ArgumentMatchers.*;
@@ -101,6 +97,22 @@ class NoteControllerTest {
 
     }
 
+    @Test
+    void testDelete() throws Exception {
+        DeleteNoteResponse response= DeleteNoteResponse
+                .builder()
+                .error(DeleteNoteResponse.Error.ok)
+                .build();
 
+        when(noteService.delete(eq("testUser"), eq(1L))).thenReturn(response);
+
+        mockMvc.perform(delete("/notes")
+                        .param("id", "1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .with(user("testUser")))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(response)));
+    }
 
 }
